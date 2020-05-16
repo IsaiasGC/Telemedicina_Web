@@ -34,8 +34,18 @@
                 <div class="row h-100">
                     <div class="col-12 h-100">
                         <div class="h-100 d-md-flex justify-content-between align-items-center">
-                            <p>Welcome to <span>Medifile</span> template</p>
-                            <p>Opening Hours : Monday to Saturday - 8am to 10pm Contact : <span>+12-823-611-8721</span></p>
+                            {% if not app.user %}
+                                <p><span><a href="{{ path('app_register') }}">Sign up</a></span></p>
+                            {% else %}
+                                <p><span>¡Bienvenido {{ app.user.username }}!</span></p>
+                            {% endif %}
+
+                            {% if not app.user %}
+                                <p><span><a href="{{ path('app_login') }}">Log in</a></span></p>
+                            {% else %}
+                                <p><span><a href="{{ path('app_logout') }}">Log out</a></span></p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -50,16 +60,22 @@
                         <div class="main-menu h-100">
                             <nav class="navbar h-100 navbar-expand-lg">
                                 <!-- Logo Area  -->
-                                <a class="navbar-brand" href="index-2.html"><img src="{{ asset('img/core-img/logo.png') }}" alt="Logo"></a>
+                                <a class="navbar-brand" href="{{ path('home') }}"><img src="{{ asset('img/core-img/logo.png') }}" alt="Logo"></a>
 
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#medilifeMenu" aria-controls="medilifeMenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
                                 <div class="collapse navbar-collapse" id="medilifeMenu">
                                     <!-- Menu Area -->
                                     <ul class="navbar-nav ml-auto">
+                                        {% if app.user %}
                                         <li class="nav-item active">
-                                            <a class="nav-link" href="index-2.html">Home <span class="sr-only">(current)</span></a>
+                                            <a class="nav-link" href="index-2.html">Mi perfil <span class="sr-only">(current)</span></a>
                                         </li>
+                                        {% else %}
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        {% endif %}
                                         <li class="nav-item">
                                             <a class="nav-link" href="services.html">Services</a>
                                         </li>
