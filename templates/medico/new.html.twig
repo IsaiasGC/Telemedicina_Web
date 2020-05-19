@@ -1,0 +1,26 @@
+{% extends 'base_forms.html.twig' %}
+
+{% block title %}New Medico{% endblock %}
+
+{% block form_title %}Create new Medico for User {{ app.user.username }}{% endblock %}
+
+{% block nextMenu %}<a href="{{ path('app_logout') }}">Log out</a>{% endblock %}
+
+{% block body %}
+
+    {{ include('medico/_form.html.twig') }}
+
+    {# <a href="{{ path('medico_index') }}">back to list</a> #}
+{% endblock %}
+
+{% block js %}
+    <script>
+        function ocultar(){
+            var user=document.getElementById('id_user');
+            user.setAttribute('hidden', true);
+            user.labels[0].setAttribute('hidden', true);
+            user.value={{ app.user.id }};
+        }
+        ocultar();
+    </script>
+{% endblock %}

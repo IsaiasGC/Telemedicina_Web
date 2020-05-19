@@ -1,0 +1,55 @@
+{% extends 'base_forms.html.twig' %}
+
+{% block title %}Paciente{% endblock %}
+
+{% block form_title %}Paciente{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ paciente.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ paciente.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Apellido</th>
+                <td>{{ paciente.apellido }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ paciente.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ paciente.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Alergias</th>
+                <td>{{ paciente.alergias }}</td>
+            </tr>
+            <tr>
+                <th>Enfermedades_cronicas</th>
+                <td>{{ paciente.enfermedadesCronicas }}</td>
+            </tr>
+            <tr>
+                <th>Cirugias</th>
+                <td>{{ paciente.cirugias }}</td>
+            </tr>
+            <tr>
+                <th>Covid19</th>
+                <td>{{ paciente.covid19 ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {# <a href="{{ path('paciente_index') }}">back to list</a> #}
+
+    {# <a href="{{ path('paciente_edit', {'id': paciente.id}) }}">edit</a> #}
+
+    {# {{ include('paciente/_delete_form.html.twig') }} #}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base_forms.html.twig' %}
+
+{% block title %}Medico{% endblock %}
+
+{% block form_title %}Medico{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ medico.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ medico.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Apellido</th>
+                <td>{{ medico.apellido }}</td>
+            </tr>
+            <tr>
+                <th>Cedula</th>
+                <td>{{ medico.cedula }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ medico.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ medico.telefono }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('medico_index') }}">back to list</a>
+
+    <a href="{{ path('medico_edit', {'id': medico.id}) }}">edit</a>
+
+    {{ include('medico/_delete_form.html.twig') }}
+{% endblock %}
