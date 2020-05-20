@@ -69,7 +69,9 @@
                                     <ul class="navbar-nav ml-auto">
                                         {% if app.user %}
                                         <li class="nav-item active">
-                                            <a class="nav-link" href="index-2.html">Mi perfil <span class="sr-only">(current)</span></a>
+                                            <!-- AQUI SE DEBE DE CHECAR EL ROL DEL USUARIO ACTUAL -->
+                                            <!-- ESTE MISMO BOTON LLEVARÁ AL PERFIL DEL USUARIO ACTUAL YA SEA MEDICO O PACIENTE -->
+                                            <a class="nav-link" href="{{ path('perfil_medico') }}">Mi perfil <span class="sr-only">(current)</span></a>
                                         </li>
                                         {% else %}
                                         <li class="nav-item active">

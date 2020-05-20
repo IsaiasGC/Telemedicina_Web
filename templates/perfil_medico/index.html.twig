@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PerfilMedicoController!{% endblock %}
+
+{% block body %}
+<!-- ***** Breadcumb Area Start ***** -->
+<section class="breadcumb-area bg-img gradient-background-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb2.jpg') }});">
+    <div class="container h-0">
+        <div class="row h-0 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-content">
+                    {% if medico is defined %}
+                        <h3 class="breadcumb-title">Perfil de {{ medico.0.nombre }}</h3>
+                    {% else %}
+                        <h3 class="breadcumb-title">Este perfil no existe</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Breadcumb Area End ***** -->
+
+<!-- ***** Elements Area Start ***** -->
+<section class="elements-area section-padding-100-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="uni-our-doctor-item-default">
+                        <div class="item-img">
+                            <img src="{{ asset('img/medico.jpg') }}" alt="" class="img-responsive">
+                        </div>
+                        <div class="item-caption">
+                            <div class="item-caption-head">
+                                <div class="col-md-9 col-sm-9 col-xs-9 uni-clear-padding">
+                                    <div class="item-title">
+                                        {% if medico is defined %}
+                                            <h4>{{ medico.0.nombre }}</h4>
+                                            <span>{{ medico.0.apellido }}</span>
+                                        {% else %}
+                                            <h4>No existe</h4>
+                                            <span>No existe</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-caption-info">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td>Especialidades</td>
+                                        <td>Cuando las tenga apareceran aqui</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        {% if medico is defined %}
+                                            <td>Pais de origen</td>
+                                            <td>{{ medico.0.pais }}</td>
+                                        {% else %}
+                                            <td>Pais de origen</td>
+                                            <td>No existe</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        {% if medico is defined %}
+                                            <td>Estado</td>
+                                            <td>{{ medico.0.estado }}</td>
+                                        {% else %}
+                                            <td>Estado</td>
+                                            <td>No existe</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        {% if medico is defined %}
+                                            <td>Municipio</td>
+                                            <td>{{ medico.0.municipio }}</td>
+                                        {% else %}
+                                            <td>Municipio</td>
+                                            <td>No existe</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        {% if medico is defined %}
+                                            <td>Direccion</td>
+                                            <td>{{ medico.0.direccion }}</td>
+                                        {% else %}
+                                            <td>Direccion</td>
+                                            <td>No existe</td>
+                                        {% endif %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="uni-doctor-details-right">
+
+                        <!--SUMMARY-->
+                        <div class="uni-doctor-details-summary">
+                            <div class="uni-doctor-details-title">
+                                <h3>Mis servicios <a href="#" class="btn medilife-btn btn-4 m-2">Agregar un nuevo servicio <span>+</span></a></h3>
+                            </div>
+                            <p>
+                                Aqui va a tener una tabla con sus servicios y precios
+                            </p>
+                        </div>
+
+                        <!--EDUCATION/DEGREE-->
+                        <div class="uni-doctor-details-degrees">
+                            <div class="uni-doctor-details-title">
+                                <h3>Pacientes que puede atender</h3>
+                                <div class="uni-divider"></div>
+                            </div>
+                            <p>Aqui va otra tabla</p>
+                        </div>
+
+                        <!--CONTACT-->
+                        <div class="uni-doctor-details-contact">
+                            <div class="uni-doctor-details-title">
+                                <h3>Pacientes atendidos</h3>
+                                <div class="uni-divider"></div>
+                            </div>
+                            <p>OTRA tabla</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</section>
+{% endblock %}
