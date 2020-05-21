@@ -39,7 +39,7 @@ class MedicoController extends AbstractController
             $entityManager->persist($medico);
             $entityManager->flush();
 
-            return $this->redirectToRoute('medico_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('medico/new.html.twig', [

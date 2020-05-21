@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Title  -->
+        <title>{% block title %}Medilife - Health &amp; Medical Template | Home{% endblock %}</title>
+
+        <!-- Favicon  -->
+        <link rel="icon" href="{{ asset('img/core-img/favicon.ico') }}">
+
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
+        <style type="text/css">
+            /* :: 4.0 Header Area CSS */
+            .header-area {
+            position: absolute;
+            z-index: 10000;
+            width: 100%;
+            height: auto;
+            -webkit-transition-duration: 500ms;
+            transition-duration: 500ms; }
+
+            .top-header-area {
+            position: relative;
+            z-index: 1;
+            height: 45px;
+            background-color: #081f3e; }
+            .top-header-area p {
+                margin-bottom: 0;
+                color: #b5b5b5; }
+                .top-header-area p span {
+                color: #006cff; }
+                @media only screen and (min-width: 768px) and (max-width: 991px) {
+                .top-header-area p {
+                    font-size: 13px; } }
+                @media only screen and (max-width: 767px) {
+                .top-header-area p {
+                    font-size: 12px; } }
+            @media only screen and (max-width: 767px) {
+                .top-header-area {
+                height: auto;
+                padding: 15px 0; } }
+
+            .main-header-area {
+            width: 100%;
+            height: 110px;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 108, 255, 0.5);
+            -webkit-transition-duration: 500ms;
+            transition-duration: 500ms; }
+            @media only screen and (min-width: 768px) and (max-width: 991px) {
+                .main-header-area {
+                height: 80px; } }
+            @media only screen and (max-width: 767px) {
+                .main-header-area {
+                height: 70px; } }
+
+            .is-sticky .main-header-area {
+            width: 100%;
+            z-index: 10000 !important;
+            height: 80px;
+            box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+            background-color: #081f3e; }
+            @media only screen and (max-width: 767px) {
+                .is-sticky .main-header-area {
+                height: 70px; } }
+
+            .header-area .main-menu .nav-link {
+            font-size: 14px;
+            text-transform: capitalize;
+            padding: 10px 20px;
+            color: #ffffff;
+            font-weight: 500;
+            margin: 0 1px; }
+            .header-area .main-menu .nav-link:hover {
+                background-color: #006cff; }
+            .header-area .main-menu .nav-link:focus {
+                background-color: #006cff; }
+            @media only screen and (min-width: 992px) and (max-width: 1199px) {
+                .header-area .main-menu .nav-link {
+                padding: 10px; } }
+            @media only screen and (min-width: 768px) and (max-width: 991px) {
+                .header-area .main-menu .nav-link {
+                padding: 10px 30px;
+                margin: 1px 0; } }
+            @media only screen and (max-width: 767px) {
+                .header-area .main-menu .nav-link {
+                padding: 10px 30px;
+                margin: 1px 0; } }
+
+            .header-area .main-menu .nav-item.active .nav-link {
+            background-color: #006cff; }
+        </style>
+    </head>
+    <body>
+        <header class="header-area">
+            <!-- Top Header Area -->
+            <div class="top-header-area">
+                <div class="container h-100">
+                    <div class="row h-100">
+                        <div class="col-12 h-100">
+                            <div class="h-100 d-md-flex justify-content-between align-items-center">
+                                <p><span>{% block lastMenu %}<a href="{{ path('home') }}">Back to Home</a>{% endblock %}</span></p>
+                                <p><span>{% block nextMenu %}<a href="{{ path('app_register') }}">Sign up</a>{% endblock %}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="container-fluid pt-5">
+            {% block progress %}
+                <div class="progress mt-5">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:25%"></div>
+                </div>
+            {% endblock %}
+            <div class="card border-info mt-5">
+                <div class="card-header bg-info text-white border-info">
+                    <h5 class="card-title">{% block form_title %}{% endblock %}</h5>
+                </div>
+                <div class="card-body">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery (Necessary for All JavaScript Plugins) -->
+        <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
+        <!-- Popper js -->
+        <script src="{{ asset('js/popper.min.js') }}"></script>
+        <!-- Bootstrap js -->
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        {% block js %}
+            <script>
+                $(document).ready(function(){
+                    $("#medico_id_user").hide();
+                    $("label[for='medico_id_user']").hide();
+                    $("#paciente_id_user").hide();
+                    $("label[for='paciente_id_user']").hide();
+                });
+            </script>
+        {% endblock %}
+    </body>
+</html>

@@ -39,7 +39,7 @@ class PacienteController extends AbstractController
             $entityManager->persist($paciente);
             $entityManager->flush();
 
-            return $this->redirectToRoute('paciente_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('paciente/new.html.twig', [

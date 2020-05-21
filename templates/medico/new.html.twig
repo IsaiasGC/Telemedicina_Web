@@ -1,10 +1,17 @@
-{% extends 'base_forms.html.twig' %}
+{% extends 'base_registration.html.twig' %}
 
 {% block title %}New Medico{% endblock %}
 
 {% block form_title %}Create new Medico for User {{ app.user.username }}{% endblock %}
 
+{% block lastMenu %}<a href="{{ path('eleccion', {'id': app.user.id})}}">Return</a>{% endblock %}
 {% block nextMenu %}<a href="{{ path('app_logout') }}">Log out</a>{% endblock %}
+
+{% block progress %}
+    <div class="progress mt-5">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:75%"></div>
+    </div>
+{% endblock %}
 
 {% block body %}
 
@@ -15,12 +22,10 @@
 
 {% block js %}
     <script>
-        function ocultar(){
-            var user=document.getElementById('id_user');
-            user.setAttribute('hidden', true);
-            user.labels[0].setAttribute('hidden', true);
-            user.value={{ app.user.id }};
-        }
-        ocultar();
+        $(document).ready(function(){
+            $("#medico_id_user").hide();
+            $("#medico_id_user option[value={{ app.user.id }}]").attr("selected",true);
+            $("label[for='medico_id_user']").hide();
+        });
     </script>
 {% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base_registration.html.twig' %}
+
+{% block title %}Elegir Rol!{% endblock %}
+
+{% block form_title %}Elija el rol que sera {{ app.user.username }}{% endblock %}
+
+{% block nextMenu %}<a href="{{ path('app_logout') }}">Log out</a>{% endblock %}
+
+{% block progress %}
+    <div class="progress mt-5">
+         <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:50%"></div> 
+    </div>
+{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="text-center">
+    <p class="">
+        <a href="{{ path('medico_new') }}" class="btn btn-secondary btn-lg mr-4">&nbsp;&nbsp;Medico&nbsp;&nbsp;</a>
+        <a href="{{ path('paciente_new') }}" class="btn btn-primary btn-lg ml-4">&nbsp;Paciente&nbsp;</a>
+    </p>
+</div>
+{% endblock %}
