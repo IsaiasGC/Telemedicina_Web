@@ -1,0 +1,36 @@
+{% extends 'base_receta.html.twig' %}
+
+{% block title %}Hello PdfController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div id="borde">
+    <p align="center">
+        Clínica Médica<br>
+        “Esperanza S.C.”<br>
+        Urgencias las 24 horas.<br>
+        R.F.C. (poner aquí la información) &nbsp;S.S.A (Reg. Secretaría de salud)<br>
+        Calle Esperanza número 320 col. Salvación Del. Iztapalapa México Distrito federal C.P. 002356<br>
+        Tel 55-00-00-00-00
+    </p>
+    <p>
+        <strong>Generales</strong>:<br>
+        <strong>Nombre</strong>: <u>Joaquín Fernández Pérez</u> &nbsp;Fecha: <u>23 de julio de 2012</u><br>
+        <strong>Edad</strong>: <u>60 años</u> &nbsp;<strong>Peso</strong>: <u>52</u> <strong>Talla</strong>: <u>175m</u> <strong>Temp</strong>: <u>36.8</u> <strong>T.A</strong>:&nbsp; <u>130/75</u>&nbsp; <strong>Seguridad social</strong>: <u>(No tiene)</u>&nbsp; <strong>Antecedentes</strong>: (no existen) &nbsp;<strong>Expediente</strong>: (8596-2012) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Alergias</strong>: (ninguna)<br>
+        <strong>Diagnostico</strong>: (Síndrome de fatiga crónica hipertensión y diabetes).
+    </p>
+    <p style="margin-left:36.0pt;">
+        1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bebida líquida vitaminada tres veces al día (poner marca o tipo)<br>
+        2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bentónico marca (poner la marca y/o substancia activa)<br>
+        3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Insulina inyectable, de tipo (poner tipo) (aplicar una inyección de un cm después de medir el azúcar) una vez al día
+    </p>
+    <p>No consumir alimentos altos en almidones y azucares durante una semana, y realizar actividad física ligera.</p>
+    <p align="right">Cita en una semana</p>
+    <p align="center">Dr. Ernesto Pérez Valverde<br>Firma</p>
+    <p align="right">Folio 000321<br>Sello de la secretaria de salud</p>
+</div>
+{% endblock %}
