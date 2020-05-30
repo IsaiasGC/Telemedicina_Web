@@ -1,0 +1,11 @@
+{% extends 'base_forms.html.twig' %}
+
+{% block title %}Nueva Consulta{% endblock %}
+
+{% block body %}
+    <h1>Datos de la consulta</h1>
+
+    {{ include('consulta/_form.html.twig') }}
+
+    <a href="{{ path('perfil_paciente') }}">Cancelar</a>
+{% endblock %}
