@@ -3,41 +3,42 @@
 {% block title %}Hello PerfilMedicoController!{% endblock %}
 
 {% block body %}
-<!-- ***** Breadcumb Area Start ***** -->
-<section class="breadcumb-area bg-img gradient-background-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb2.jpg') }});">
-    <div class="container h-0">
-        <div class="row h-0 align-items-center">
-            <div class="col-12">
-                <div class="breadcumb-content">
-                    {% if medico is defined %}
-                        <h3 class="breadcumb-title">Perfil de {{ medico.0.nombre }}</h3>
-                    {% else %}
-                        <h3 class="breadcumb-title">Este perfil no existe</h3>
-                    {% endif %}
+    <!-- ***** Breadcumb Area Start ***** -->
+    <section class="breadcumb-area bg-img gradient-background-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb2.jpg') }});">
+        <div class="container h-0">
+            <div class="row h-0 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-content">
+                        {% if paciente is defined %}
+                            <h3 class="breadcumb-title">Perfil de {{ paciente.0.nombre }}</h3>
+                            <h3>{{ app.request.get('Especialidad') }}</h3>
+                        {% else %}
+                            <h3 class="breadcumb-title">Este perfil no existe</h3>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- ***** Breadcumb Area End ***** -->
+    </section>
+    <!-- ***** Breadcumb Area End ***** -->
 
-<!-- ***** Elements Area Start ***** -->
-<section class="elements-area section-padding-100-0">
+    <!-- ***** Elements Area Start ***** -->
+    <section class="elements-area section-padding-100-0">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <div class="uni-our-doctor-item-default">
                         <div class="item-img">
-                            <img src="{{ asset('img/medico.jpg') }}" alt="" class="img-responsive">
+                            <img src="{{ asset('img/paciente.jpg') }}" alt="" class="img-responsive">
                             <hr>
                         </div>
                         <div class="item-caption">
                             <div class="item-caption-head">
                                 <div class="col-md-9 col-sm-9 col-xs-9 uni-clear-padding">
                                     <div class="item-title">
-                                        {% if medico is defined %}
-                                            <h4>{{ medico.0.nombre }}</h4>
-                                            <h4>{{ medico.0.apellido }}</h4>
+                                        {% if paciente is defined %}
+                                            <h4>{{ paciente.0.nombre }}</h4>
+                                            <h4>{{ paciente.0.apellido }}</h4>
                                         {% else %}
                                             <h4>No existe</h4>
                                             <span>No existe</span>
@@ -47,49 +48,38 @@
                             </div>
                             <div class="item-caption-info">
                                 <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <td>Especialidades</td>
-                                        {% if especialidades is defined %}
-                                            <td>{{ especialidades }}<a data-toggle="modal" href="#modalEspecialidades">Agregar+</a></td>
-                                        {% else %}
-                                            <td><a data-toggle="modal" href="#modalEspecialidades" id="myInput">Agregar+</a></td>
-                                        {% endif %}
-
-                                    </tr>
-                                    </thead>
                                     <tbody>
                                     <tr>
-                                        {% if medico is defined %}
+                                        {% if paciente is defined %}
                                             <td>Pais de origen</td>
-                                            <td>{{ medico.0.pais }}</td>
+                                            <td>{{ paciente.0.pais }}</td>
                                         {% else %}
                                             <td>Pais de origen</td>
                                             <td>No existe</td>
                                         {% endif %}
                                     </tr>
                                     <tr>
-                                        {% if medico is defined %}
+                                        {% if paciente is defined %}
                                             <td>Estado</td>
-                                            <td>{{ medico.0.estado }}</td>
+                                            <td>{{ paciente.0.estado }}</td>
                                         {% else %}
                                             <td>Estado</td>
                                             <td>No existe</td>
                                         {% endif %}
                                     </tr>
                                     <tr>
-                                        {% if medico is defined %}
+                                        {% if paciente is defined %}
                                             <td>Municipio</td>
-                                            <td>{{ medico.0.municipio }}</td>
+                                            <td>{{ paciente.0.municipio }}</td>
                                         {% else %}
                                             <td>Municipio</td>
                                             <td>No existe</td>
                                         {% endif %}
                                     </tr>
                                     <tr>
-                                        {% if medico is defined %}
+                                        {% if paciente is defined %}
                                             <td>Direccion</td>
-                                            <td>{{ medico.0.direccion }}</td>
+                                            <td>{{ paciente.0.direccion }}</td>
                                         {% else %}
                                             <td>Direccion</td>
                                             <td>No existe</td>
@@ -109,26 +99,26 @@
                         <!--SUMMARY-->
                         <div class="uni-doctor-details-summary">
                             <div class="uni-doctor-details-title">
-                                <h3>Mis servicios
-                                    <a href="#" class="btn medilife-btn btn-4 m-2">Agregar un nuevo servicio
-                                        <span>+</span>
-                                    </a>
-                                </h3>
+                                <h3>Mis consultas <a href="{{ path('consulta_new')}}"  class="btn medilife-btn btn-4 m-2">Solicitar consulta <span>+</span></a></h3>
                             </div>
                             <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                <table class="table table-bordered table-striped mb-0">
+                                <table class="table table-bordered table-striped mb-0" id="tablaConsulta">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Servicio</th>
-                                        <th scope="col">Costo</th>
+                                        <th scope="col">No. Consulta</th>
+                                        <th scope="col">Sintomas</th>
+                                        <th scope="col">Foto</th>
+                                        <th scope="col">Especialidad</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% if servicios is defined %}
-                                        {% for servicio in servicios %}
+                                    {% if consultas is defined %}
+                                        {% for consulta in consultas %}
                                             <tr>
-                                                <td>{{ servicio.servicio }}</td>
-                                                <td>${{ servicio.costo }}</td>
+                                                <td>{{ consulta.id }}</td>
+                                                <td>{{ consulta.sintomas }}</td>
+                                                <td><button type="button" data-toggle="modal" data-target="#modalImagen" class="btn btn-success">Ver</button></td>
+                                                <td>{{ consulta.especialidad }}</td>
                                             </tr>
                                         {% endfor %}
                                     {% endif %}
@@ -139,59 +129,51 @@
                         <br>
                         <hr>
                         <!--EDUCATION/DEGREE-->
-                        <div class="uni-doctor-details-degrees">
+                        <!--<div class="uni-doctor-details-degrees">
                             <div class="uni-doctor-details-title">
                                 <h3>Pacientes que puede atender</h3>
                                 <div class="uni-divider"></div>
                             </div>
-                            {% if pacientes is defined %}
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                    <table class="table table-bordered table-striped mb-0">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col"># Consulta</th>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Detalles clinicos</th>
-                                            <th scope="col">Area solicitada</th>
-                                            <th scope="col">Acciones</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for paciente in pacientes %}
-                                            <tr>
-                                                <td>{{ paciente.id_consulta }}</td>
-                                                <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
-                                                <td><button type="button" class="btn btn-primary">Ver</button></td>
-                                                <td>{{ paciente.especialidad }}</td>
-                                                <td><button type="button" class="btn btn-primary">Recetar</button>
-                                                    <button type="button" class="btn btn-primary">Aceptar cita</button>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    {% else %}
-                                        <p>De momento no tienes pacientes para tu(s) espacialidad(es)</p>
-                                    {% endif %}
-                                </div>
-                        </div>
-                        <br>
-                        <hr>
-                        <!--CONTACT-->
-                        <div class="uni-doctor-details-contact">
-                            <div class="uni-doctor-details-title">
-                                <h3>Pacientes atendidos</h3>
-                                <div class="uni-divider"></div>
-
-                            </div>
-                            {% if pacientesAtendidos is defined %}
+                            { if pacientes is defined %}
                             <div class="table-wrapper-scroll-y my-custom-scrollbar">
                                 <table class="table table-bordered table-striped mb-0">
                                     <thead>
                                     <tr>
                                         <th scope="col">Nombre</th>
+                                        <th scope="col">Sintomas</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <td>Ayy</td>
+                                    <td><button type="button" class="btn btn-primary">Ver detalles</button></td>
+                                    <td><button type="button" class="btn btn-primary">Recetar</button>
+                                        <button type="button" class="btn btn-primary">Aceptar cita</button>
+                                    </td>
+                                    </tbody>
+                                </table>
+                                {else %}
+                                    <p>De momento no tienes pacientes para tu(s) espacialidad(es)</p>
+                                {endif %}
+                            </div>
+                        </div>
+                        -->
+                        <br>
+                        <hr>
+                        <!--CONTACT-->
+                        <div class="uni-doctor-details-contact">
+                            <div class="uni-doctor-details-title">
+                                <h3>Pagos realizacos</h3>
+                                <div class="uni-divider"></div>
+                            </div>
+                            {% if pagos is defined %}
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <table class="table table-bordered table-striped mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Fecha</th>
                                         <th scope="col">Detalles</th>
-                                        <th scope="col">Sospechoso COVID-19</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -206,33 +188,31 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                    <p>De momento no haz atendido a ningun paciente(s)
+                                <p>De momento no haz hecho ningun pago</p>
                                 {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-</section>
+    </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalEspecialidades" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nueva especialidad</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Foto de los sintomas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    {{ form_end(form) }}
+                    <p>Aqui va la imagen</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -242,10 +222,9 @@
 {% block javascripts %}
     <script>
         $($document).ready(function () {
-            $('#modalEspecialidades').on('shown.bs.modal', function () {
+            $('#modalConsulta').on('shown.bs.modal', function () {
                 $('#myInput').trigger('focus');
             });
         });
     </script>
 {% endblock %}
-

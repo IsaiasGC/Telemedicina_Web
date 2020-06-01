@@ -31,6 +31,7 @@ class MedicoController extends AbstractController
     public function new(Request $request): Response
     {
         $medico = new Medico();
+        $this->getUser()->setRoles(['ROL_MEDICO']);
         $form = $this->createForm(MedicoType::class, $medico);
         $form->handleRequest($request);
 

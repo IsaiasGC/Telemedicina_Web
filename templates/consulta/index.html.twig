@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consulta index{% endblock %}
+
+{% block body %}
+    <h1>Consulta index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sintomas</th>
+                <th>FotoSintomas</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultum in consultas %}
+            <tr>
+                <td>{{ consultum.id }}</td>
+                <td>{{ consultum.sintomas }}</td>
+                <td>{{ consultum.fotoSintomas }}</td>
+                <td>
+                    <a href="{{ path('consulta_show', {'id': consultum.id}) }}">show</a>
+                    <a href="{{ path('consulta_edit', {'id': consultum.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('consulta_new') }}">Create new</a>
+{% endblock %}

@@ -71,7 +71,11 @@
                                         <li class="nav-item active">
                                             <!-- AQUI SE DEBE DE CHECAR EL ROL DEL USUARIO ACTUAL -->
                                             <!-- ESTE MISMO BOTON LLEVARÁ AL PERFIL DEL USUARIO ACTUAL YA SEA MEDICO O PACIENTE -->
+                                            {% if app.user.roles.0 == 'ROL_MEDICO' %}
                                             <a class="nav-link" href="{{ path('perfil_medico') }}">Mi perfil <span class="sr-only">(current)</span></a>
+                                            {% else %}
+                                            <a class="nav-link" href="{{ path('perfil_paciente') }}">Mi perfil <span class="sr-only">(current)</span></a>
+                                            {% endif %}
                                         </li>
                                         {% else %}
                                         <li class="nav-item active">
@@ -227,7 +231,7 @@
     <script src="{{ asset('js/plugins.js') }}"></script>
     <!-- Active js -->
     <script src="{{ asset('js/active.js') }}"></script>
-
+    {% block javascripts %}{% endblock %}
 </body>
 
 

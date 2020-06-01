@@ -31,6 +31,7 @@ class PacienteController extends AbstractController
     public function new(Request $request): Response
     {
         $paciente = new Paciente();
+        $this->getUser()->setRoles(['ROL_PACIENTE']);
         $form = $this->createForm(PacienteType::class, $paciente);
         $form->handleRequest($request);
 
@@ -91,4 +92,5 @@ class PacienteController extends AbstractController
 
         return $this->redirectToRoute('paciente_index');
     }
+
 }
