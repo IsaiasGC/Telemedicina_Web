@@ -55,4 +55,32 @@ class PdfController extends AbstractController
             'controller_name' => 'PdfController',
         ]);
     }
+    /**
+     * @Route("/mail/prueba", name="mail_prueba",  methods={"GET"})
+     */
+    public function sendReceta(\Swift_Mailer $mailer){
+        $message = (new \Swift_Message('Medilife - Receta'))
+            ->setFrom('15030094@itcelaya.edu.mx')
+            ->setTo('j.isaias.g.c@gmail.com')
+            ->setBody(
+                $this->renderView('pdf/receta.html.twig'),'text/html'
+            )
+        ;
+
+            // you can remove the following code if you don't define a text version for your emails
+            // ->addPart(
+            //     $this->renderView(
+            //         // templates/emails/registration.txt.twig
+            //         'pdf/receta.html.twig'
+            //     ),
+            //     'text/plain'
+            // )
+
+        $mailer->send($message);
+
+        $response = new Response();
+            $response->setContent('<html><body><h1 align="center">Correo enviado!</h1></body></html>');
+            $response->setStatusCode(Response::HTTP_OK);
+            return $response;
+    }
 }
