@@ -117,7 +117,24 @@
                                             <tr>
                                                 <td>{{ consulta.id }}</td>
                                                 <td>{{ consulta.sintomas }}</td>
-                                                <td><button type="button" data-toggle="modal" data-target="#modalImagen" class="btn btn-success">Ver</button></td>
+                                                {% if consulta.foto_sintomas is not null%}
+                                                    <td><button type="button" data-toggle="modal" data-target="#modalImagen{{ consulta.id }}" class="btn btn-success">Ver</button></td>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade " id="modalImagen{{ consulta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <img src="{{ asset('uploads/'~consulta.foto_sintomas) }}" class="img-fluid" alt="Foto de los sintomas">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <td><p>No hay foto</p></td>
+                                                {% endif %}
                                                 <td>{{ consulta.especialidad }}</td>
                                             </tr>
                                         {% endfor %}
@@ -197,26 +214,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Modal -->
-    <div class="modal fade " id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Foto de los sintomas</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Aqui va la imagen</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}

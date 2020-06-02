@@ -19,6 +19,17 @@ class MedicoRepository extends ServiceEntityRepository
         parent::__construct($registry, Medico::class);
     }
 
+    public function agregarEspecialidad($id_especialidad,$id_medico){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql='
+        insert into especialidad_medico values(:id_med,:id_esp);
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_esp',$id_especialidad);
+        $stmt->bindParam(':id_med',$id_medico);
+        $stmt->execute();
+    }
+
     // /**
     //  * @return Medico[] Returns an array of Medico objects
     //  */

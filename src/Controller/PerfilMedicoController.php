@@ -6,7 +6,9 @@ use App\Entity\Especialidad;
 use App\Entity\Medico;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,6 +23,7 @@ class PerfilMedicoController extends AbstractController
         $especialidades = $this->obtenerEspecialidades($medicoActual[0]['medico_id']);
         $resultServicios = $this->obtenerServicios($medicoActual[0]['medico_id']);
         $form = $this->formEspecialidad($medicoActual);
+        $form2=$this->formServicio($medicoActual);
         $pacientes=$this->obtenerConsultas($medicoActual[0]['medico_id']);
 
         return $this->render('perfil_medico/index.html.twig', [
@@ -29,7 +32,8 @@ class PerfilMedicoController extends AbstractController
             'especialidades' => $especialidades,
             'pacientes'=>$pacientes,
             'servicios' => $resultServicios,
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'form2'=>$form2->createView()
         ]);
     }
 
@@ -50,13 +54,48 @@ class PerfilMedicoController extends AbstractController
         $especialidades = $this->obtenerEspecialidades($medicoActual[0]['medico_id']);
         $resultServicios = $this->obtenerServicios($medicoActual[0]['medico_id']);
         $form = $this->formEspecialidad($medicoActual);
+        $form2=$this->formServicio($medicoActual);
 
         return $this->render('perfil_medico/index.html.twig', [
             'controller_name' => 'PerfilMedicoController',
             'medico'  => $medicoActual,
             'especialidades' => $especialidades,
             'servicios' => $resultServicios,
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'form2'=>$form2->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/perfil/medico/agregarServicio", name="agregarEspecialidadServicio", methods={"POST"})
+     */
+    public function agregarServicio(Request $request)
+    {
+        $bag =$request->request->get('form');
+        $servicio = $bag['servicio'];
+        $costo = $bag['costo'];
+        $id_medico=$request->query->get('id_medico');
+        $em = $this->getDoctrine()->getManager();
+        //Tercera query
+        $queryServicios = 'insert into servicio_medico (servicio,costo,id_medico) values(:servicio,:costo,:id_medico)';
+        $statement = $em->getConnection()->prepare($queryServicios);
+        $statement->bindParam(':servicio', $servicio);
+        $statement->bindParam(':costo', $costo);
+        $statement->bindParam(':id_medico', $id_medico);
+        $statement->execute();
+
+        $medicoActual = $this->obtenerDatosMedicoActual();
+        $especialidades = $this->obtenerEspecialidades($medicoActual[0]['medico_id']);
+        $resultServicios = $this->obtenerServicios($medicoActual[0]['medico_id']);
+        $form = $this->formEspecialidad($medicoActual);
+        $form2=$this->formServicio($medicoActual);
+        return $this->render('perfil_medico/index.html.twig', [
+            'controller_name' => 'PerfilMedicoController',
+            'medico'  => $medicoActual,
+            'especialidades' => $especialidades,
+            'servicios' => $resultServicios,
+            'form'=>$form->createView(),
+            'form2'=>$form2->createView()
         ]);
     }
 
@@ -100,8 +139,7 @@ class PerfilMedicoController extends AbstractController
     public function obtenerServicios($id_medico){
         $em = $this->getDoctrine()->getManager();
         //Tercera query
-        $queryServicios = 'select servicio.servicio , SM.costo from servicio_medico SM 
-                                inner join servicio on SM.id_servicio = servicio.id 
+        $queryServicios = 'select SM.servicio , SM.costo from servicio_medico SM 
                                 inner join medico on SM.id_medico = medico.id where medico.id = :id;';
         $statement = $em->getConnection()->prepare($queryServicios);
         $statement->bindParam(':id', $id_medico);
@@ -146,17 +184,16 @@ class PerfilMedicoController extends AbstractController
 
     public function formServicio($medicoActual){
         $form = $this->createFormBuilder()
-            ->add('idEspecialidad', EntityType::class, [
-                'class' => Especialidad::class,
-                'label'=>'Escoge una especialidad'
+            ->add('servicio', TextType::class, [
+                'label'=>'Introduce el nuevo servicio'
             ])
+            ->add('costo', NumberType::class)
             ->add('Agregar', SubmitType::class,
                 array('label' => 'Agregar'))
-            ->setAction($this->generateUrl('agregarEspecialidadMedico',
+            ->setAction($this->generateUrl('agregarEspecialidadServicio',
                 array('id_medico'=>$medicoActual[0]['medico_id'])))
             ->setMethod('POST')
             ->getForm();
         return $form;
     }
-
 }
