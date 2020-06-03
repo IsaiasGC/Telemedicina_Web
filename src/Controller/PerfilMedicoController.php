@@ -170,7 +170,7 @@ class PerfilMedicoController extends AbstractController
                     ( select especialidad.id from especialidad_medico      
                     inner join medico on especialidad_medico.id_medico=medico.id          
                     inner join especialidad on especialidad_medico.id_especialidad = especialidad.id 
-                    where medico.id = :id);";
+                    where medico.id = :id) and consulta.id not in (select id_consulta from consulta_atendida);";
         $statement = $em->getConnection()->prepare($queryChida);
         $statement->bindParam(':id', $id_medico);
         $statement->execute();
