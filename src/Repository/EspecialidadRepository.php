@@ -47,4 +47,14 @@ class EspecialidadRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function obtenerEspecialidades(){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+        select * from especialidad;
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
 }

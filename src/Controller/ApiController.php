@@ -88,6 +88,17 @@ class ApiController extends AbstractController
 
 
     /**
+     * @Route("/api/especialidades", name="apiespecialidades", methods={"GET"})
+     */
+    public function mostrarEspecialidades(Request $request)
+    {
+        $datos = $this->getDoctrine()->getRepository(Especialidad::class)
+            ->obtenerEspecialidades();
+        return new Response(json_encode($datos));
+    }
+
+
+    /**
      * @Route("/api/consultasCrear", name="apiConsultasCrear", methods={"POST"})
      */
     public function crearConsulta(Request $request)
