@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Consulta;
 use App\Entity\Especialidad;
 use App\Entity\Paciente;
+use App\Entity\User;
+use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiController extends AbstractController
 {
@@ -91,17 +94,14 @@ class ApiController extends AbstractController
     {
         //Revise un json con todos los datos de la consulta, ejemplo:
         /*
-         * {
-	            "id_paciente":4,
-	            "sintomas":"me duele el ombligo",
-	            "id_especialidad":10
-            }
+            "id_paciente":4,
+            "sintomas":"me duele el ombligo",
+            "id_especialidad":10,
+            "foto": file<>
          */
-        $data = $request->getContent();
-        $decode = json_decode($data, true);
-        $id_paciente = $decode['id_paciente'];
-        $sintomas = $decode['sintomas'];
-        $id_especialidad = $decode['id_especialidad'];
+        $id_paciente = $request->get('id_paciente');
+        $sintomas = $request->get('sintomas');
+        $id_especialidad = $request->get('id_especialidad');
         $consulta = new Consulta();
         $consulta->setIdPaciente($this
             ->getDoctrine()
@@ -112,6 +112,17 @@ class ApiController extends AbstractController
             ->getDoctrine()
             ->getRepository(Especialidad::class)
             ->find($id_especialidad));
+        $uploadedFile = $request->files->get('foto');
+        if($uploadedFile) {
+            $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
+            $originalFileName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = Urlizer::urlize($originalFileName) . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+            $uploadedFile->move(
+                $destination,
+                $newFilename
+            );
+            $consulta->setFotoSintomas($newFilename);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($consulta);
         $entityManager->flush();
@@ -137,5 +148,33 @@ class ApiController extends AbstractController
         $statement->execute();
         $consultas = $statement->fetchAll();
         return $consultas;
+    }
+
+    /**
+     * @Route("/api/login", name="api_login", methods={"POST"})
+     */
+    public function loginApp(Request $request, UserPasswordEncoderInterface $encoder){
+        $body = $request->getContent();
+        $data = json_decode($body,true);
+
+        $email = $data["email"];
+        $password = $data["password"];
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array("email" => $email));
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+
+        if($encoder->isPasswordValid($user, $password)){
+            $user->setPassword('');
+            $serializer = $this->container->get('serializer');
+            $userJSON = $serializer->serialize($user, 'json');
+
+            $response->setContent($userJSON);
+            $response->setStatusCode(Response::HTTP_OK);
+        }else{
+            $response->setContent('{"status":"unauthorize"}');
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+        return $response;
     }
 }
