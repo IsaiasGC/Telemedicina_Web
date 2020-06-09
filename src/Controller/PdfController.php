@@ -65,14 +65,17 @@ class PdfController extends AbstractController
         ]);
     }
     /**
-     * @Route("/mail/prueba", name="mail_prueba",  methods={"GET"})
+     * @Route("/mail/prueba/{id_consulta}/{id_medico}", name="mail_prueba",  methods={"GET"})
      */
-    public function sendReceta(\Swift_Mailer $mailer){
-        $message = (new \Swift_Message('Medilife - Receta'))
-            ->setFrom('15030094@itcelaya.edu.mx')
-            ->setTo('j.isaias.g.c@gmail.com')
+    public function sendReceta(\Swift_Mailer $mailer,int $id_consulta,int $id_medico){
+        $datosConsulta = $this->getDoctrine()->getRepository(Medico::class)
+            ->obtenerConsultaAtendida($id_medico,$id_consulta);
+        $email = $datosConsulta[0]['email'];
+        $message = (new \Swift_Message('Medilife - Consulta Atendida'))
+            ->setFrom('15030076@itcelaya.edu.mx')
+            ->setTo($email)
             ->setBody(
-                $this->renderView('pdf/receta.html.twig'),'text/html'
+                $this->renderView('pdf/receta.html.twig',['datosConsulta'=>$datosConsulta]),'text/html'
             )
         ;
 

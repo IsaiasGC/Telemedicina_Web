@@ -256,6 +256,7 @@
                                         <td>
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAtendido{{ pacienteAtendido.id_consulta }}">Ver</button>
                                             <a href="{{ path('pdf_receta', {'id': pacienteAtendido.id_consulta,'id_medico':medico.0.medico_id,'llave' : '8b832bd09210c454092f343d799430d0'}) }}"><button type="button" class="btn btn-primary">Generar PDF</button></a>
+                                            <a href="{{ path('mail_prueba', {'id_consulta': pacienteAtendido.id_consulta,'id_medico':medico.0.medico_id}) }}"><button type="button" class="btn btn-primary">Enviar PDF al paciente</button></a>
                                         </td>
                                         </tr>
                                         <!--AQUI VA EL MODAL DE LOS DETALLES DEL PACIENTE-->
