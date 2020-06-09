@@ -2,29 +2,36 @@
 
 namespace App\Controller;
 
+use App\Entity\Consulta;
+use App\Entity\Medico;
 use Knp\Snappy\Pdf;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class PdfController extends AbstractController
 {
     /**
-     * @Route("/pdf/receta/{llave}/download/{id}", name="pdf_receta",  methods={"GET"})
+     * @Route("/pdf/receta/{llave}/download/{id}/{id_medico}", name="pdf_receta",  methods={"GET"})
      */
-    public function receta(String $llave, int $id)
+    public function receta(String $llave, int $id,int $id_medico)
     {
-        $rev=md5('Medilafe_receta_id_'.$id);
-        if($rev!=$llave){
+        $rev=md5('Medilafe_receta_id_').$id;
+
+        if($rev!=$llave.$id){
             $response = new Response();
             $response->setContent('<html><body><h1 align="center">No Permissions!</h1></body></html>');
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
             return $response;
         }
         $pdf=new Pdf('/usr/local/bin/wkhtmltopdf');
+        $datosConsulta = $this->getDoctrine()->getRepository(Medico::class)
+            ->obtenerConsultaAtendida($id_medico,$id);
+
         $html = $this->renderView('pdf/receta.html.twig', [
-            'controller_name' => 'PdfController',
+            'controller_name' => 'PdfController','datosConsulta'=>$datosConsulta
         ]);
 
         return new PdfResponse(
@@ -47,12 +54,14 @@ class PdfController extends AbstractController
     }
 
     /**
-     * @Route("/pdf/prueba", name="pdf_prueba",  methods={"GET"})
+     * @Route("/pdf/prueba/{id_consulta}/{id_medico}", name="pdf_prueba",  methods={"GET"})
      */
-    public function prueba()
+    public function prueba(int $id_consulta,int $id_medico)
     {
+        $datosConsulta = $this->getDoctrine()->getRepository(Medico::class)
+            ->obtenerConsultaAtendida($id_medico,$id_consulta);
         return $this->render('pdf/receta.html.twig', [
-            'controller_name' => 'PdfController',
+            'controller_name' => 'PdfController','datosConsulta'=>$datosConsulta
         ]);
     }
     /**

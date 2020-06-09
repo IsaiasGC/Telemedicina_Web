@@ -30,6 +30,18 @@ class MedicoRepository extends ServiceEntityRepository
         $stmt->execute();
     }
 
+    public function obtenerConsultaAtendida($id_medico,$id_consulta){
+        //select paciente.nombre, paciente.covid19,consulta.sintomas,consulta.foto_sintomas,consulta.sintomas,especialidad.especialidad,CA.diagnostico, CA.fecha_atencion from medico inner join consulta_atendida CA on medico.id = CA.id_medico inner join consulta on consulta.id = CA.id_consulta inner join paciente on consulta.id_paciente_id = paciente.id inner join especialidad on consulta.id_especialidad_id = especialidad.id;
+        $em = $this->getEntityManager()->getConnection();
+        $queryChida="select CA.medicamento,concat(medico.nombre,' ',medico.apellido) as nombreMedico ,paciente.alergias,paciente.enfermedades_cronicas,paciente.cirugias,user.email,consulta.id as id_consulta, concat(paciente.nombre,' ',paciente.apellido) as nombre,paciente.covid19,consulta.foto_sintomas,consulta.sintomas,especialidad.especialidad,CA.diagnostico, CA.fecha_atencion from medico inner join consulta_atendida CA on medico.id = CA.id_medico inner join consulta on consulta.id = CA.id_consulta inner join paciente on consulta.id_paciente_id = paciente.id inner join especialidad on consulta.id_especialidad_id = especialidad.id inner join user on user.id = paciente.id_user_id where medico.id = :id and consulta.id = :id_consulta;";
+        $statement = $em->prepare($queryChida);
+        $statement->bindParam(':id', $id_medico);
+        $statement->bindParam(':id_consulta', $id_consulta);
+        $statement->execute();
+        $consultas = $statement->fetchAll();
+        return $consultas;
+    }
+
     // /**
     //  * @return Medico[] Returns an array of Medico objects
     //  */

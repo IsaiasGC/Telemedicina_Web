@@ -89,14 +89,16 @@ class PerfilMedicoController extends AbstractController
         $id_consulta = $request->attributes->get('id');
         $medicoActual = $this->obtenerDatosMedicoActual();
         $diagnostico = $request->query->get('diagnostico');
+        $medicamento = $request->query->get('medicamento');
         $em = $this->getDoctrine()->getManager();
         //Tercera query
         $queryServicios = 'insert into consulta_atendida 
-            values (:id_consulta,:id_medico,:diagnostico,now());';
+            values (:id_consulta,:id_medico,:diagnostico,now(),:medicamento);';
         $statement = $em->getConnection()->prepare($queryServicios);
         $statement->bindParam(':id_consulta', $id_consulta);
         $statement->bindParam(':id_medico', $medicoActual[0]['medico_id']);
         $statement->bindParam(':diagnostico', $diagnostico);
+        $statement->bindParam(':medicamento', $medicamento);
         $statement->execute();
 
         return $this->redirectToRoute('perfil_medico');
@@ -161,11 +163,12 @@ class PerfilMedicoController extends AbstractController
 
     public function obtenerConsultas($id_medico){
         $em = $this->getDoctrine()->getManager();
-        $queryChida="select paciente.*, consulta.id as id_consulta,consulta.sintomas,consulta.foto_sintomas,especialidad.especialidad 
+        $queryChida="select user.email,paciente.*, consulta.id as id_consulta,consulta.sintomas,consulta.foto_sintomas,especialidad.especialidad 
                      from paciente inner join consulta on paciente.id = consulta.id_paciente_id                      
                      inner join especialidad on especialidad.id = consulta.id_especialidad_id
                     inner join especialidad_medico on especialidad.id = especialidad_medico.id_especialidad
-                    inner join medico on especialidad_medico.id_medico = medico.id 
+                    inner join medico on especialidad_medico.id_medico = medico.id
+                    inner join user on user.id = paciente.id_user_id 
                     where especialidad.id in 
                     ( select especialidad.id from especialidad_medico      
                     inner join medico on especialidad_medico.id_medico=medico.id          
@@ -224,6 +227,9 @@ class PerfilMedicoController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('diagnostico', TextareaType::class, [
                 'label'=>'Introduce el diagnostico para esta consulta'
+            ])
+            ->add('medicamento', TextareaType::class, [
+                'label'=>'Introduce el medicamento e instrucciones de uso para esta consulta'
             ])
             ->getForm();
         return $form;

@@ -18,19 +18,25 @@
         Tel 55-00-00-00-00
     </p>
     <p>
-        <strong>Generales</strong>:<br>
-        <strong>Nombre</strong>: <u>Joaquín Fernández Pérez</u> &nbsp;Fecha: <u>23 de julio de 2012</u><br>
-        <strong>Edad</strong>: <u>60 años</u> &nbsp;<strong>Peso</strong>: <u>52</u> <strong>Talla</strong>: <u>175m</u> <strong>Temp</strong>: <u>36.8</u> <strong>T.A</strong>:&nbsp; <u>130/75</u>&nbsp; <strong>Seguridad social</strong>: <u>(No tiene)</u>&nbsp; <strong>Antecedentes</strong>: (no existen) &nbsp;<strong>Expediente</strong>: (8596-2012) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Alergias</strong>: (ninguna)<br>
-        <strong>Diagnostico</strong>: (Síndrome de fatiga crónica hipertensión y diabetes).
+        <strong>Generales: {{ datosConsulta.0.sintomas }}</strong><br>
+        <strong>Nombre</strong>: <u>{{ datosConsulta.0.nombre }}</u> &nbsp;Fecha: <u>{{ datosConsulta.0.fecha_atencion }}</u><br>
+        <strong>Antecedentes</strong>: <br>
+        <strong>Cirugias</strong>: {{ datosConsulta.0.cirugias }}
+        <strong>Alergias</strong>: {{ datosConsulta.0.alergias }} <br>
+        <strong>Diagnostico</strong>: {{ datosConsulta.0.diagnostico }}.
     </p>
-    <p style="margin-left:36.0pt;">
-        1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bebida líquida vitaminada tres veces al día (poner marca o tipo)<br>
-        2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bentónico marca (poner la marca y/o substancia activa)<br>
-        3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Insulina inyectable, de tipo (poner tipo) (aplicar una inyección de un cm después de medir el azúcar) una vez al día
+    {% if datosConsulta.0.medicamento is not null %}
+    <p>
+        <strong>Medicamento</strong>: {{ datosConsulta.0.medicamento }}.
     </p>
+        {% else %}
+            <p style="margin-left:36.0pt;">
+                NO ES NECESARIO NINGUN MEDICAMENTO
+            </p>
+    {% endif %}
+    <strong>Recomendacion(es)</strong>
     <p>No consumir alimentos altos en almidones y azucares durante una semana, y realizar actividad física ligera.</p>
-    <p align="right">Cita en una semana</p>
-    <p align="center">Dr. Ernesto Pérez Valverde<br>Firma</p>
-    <p align="right">Folio 000321<br>Sello de la secretaria de salud</p>
+    <p align="center">Atendió: {{ datosConsulta.0.nombreMedico }}
+    <p align="right">Folio {{ datosConsulta.0.id_consulta }}<br>Sello de la secretaria de salud</p>
 </div>
 {% endblock %}

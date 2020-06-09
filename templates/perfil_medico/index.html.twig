@@ -209,6 +209,8 @@
                                                                 <div class="form-group">
                                                                     <label for="exampleFormControlTextarea1">Diagnostico sobre este caso</label>
                                                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="diagnostico"></textarea>
+                                                                    <label for="exampleFormControlTextarea1">Medicamento sobre este caso</label>
+                                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="medicamento"></textarea>
                                                                 </div>
                                                                 <button type="submit" class="btn btn-primary" value="diagnostico_dado" >Enviar</button>
                                                             </form>
@@ -247,9 +249,15 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <tr></tr>
                                     {% for pacienteAtendido in pacientesAtendidos %}
+                                        <tr>
                                         <td>{{ pacienteAtendido.nombre }}</td>
-                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAtendido{{ pacienteAtendido.id_consulta }}">Ver</button></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAtendido{{ pacienteAtendido.id_consulta }}">Ver</button>
+                                            <a href="{{ path('pdf_receta', {'id': pacienteAtendido.id_consulta,'id_medico':medico.0.medico_id,'llave' : '8b832bd09210c454092f343d799430d0'}) }}"><button type="button" class="btn btn-primary">Generar PDF</button></a>
+                                        </td>
+                                        </tr>
                                         <!--AQUI VA EL MODAL DE LOS DETALLES DEL PACIENTE-->
                                         <div class="modal fade" id="modalAtendido{{ pacienteAtendido.id_consulta }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -259,6 +267,7 @@
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
+                                                        <button>Generar PDF</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <b>Nombre: </b> <p>{{ pacienteAtendido.nombre }}</p>
